@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #f1f1f1;
+}
+
+header {
+  background-color: #202124;
+  padding: 1rem 0;
+  margin-bottom: 5rem;
+}
+h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 3rem;
+}
+
+/* tweet styling */
+.tweetBody {
+  background-color: #202124;
+  color: white;
+  width: 55ch;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+  position: relative;
+}
+/* icon & imena */
+.profileInfo {
+  background-color: #303236;
+  border-radius: 0.5rem;
+  max-width: 75%;
+  font-size: 0.9375rem;
+  line-height: 125%;
+
+  cursor: pointer;
+
+  position: absolute;
+  transition: box-shadow 250ms ease;
+
+  -webkit-tap-highlight-color: transparent; /* mobile fix */
+}
+
+/* jedan dropdown item*/
+.listItem {
+  display: flex;
+  align-items: center;
+
+  padding: 0.5rem 0.5rem;
+  background-color: transparent;
+
+  transition: padding 250ms ease, background-color 125ms ease;
+}
+.listItemRightSide {
+  display: flex;
+  flex-direction: column;
+  /*
+  width: 100%;
+  */
+}
+.nameAndArrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* dropdown item bez prvog */
+.dropdownItems {
+  display: none;
+}
+
+/* kada se hovera ime: */
+/*
+.profileInfo:hover {
+  z-index: 1;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+.profileInfo:hover .dropdownItems {
+  display: flex;
+}
+.profileInfo:hover .listItem {
+  padding: 1rem 0.5rem;
+}
+*/
+.listItem:hover {
+  background-color: #3c3e43;
+  border-radius: 0.5rem;
+}
+
+.triangle {
+  margin-left: 1rem;
+  transition: transform 250ms ease;
+}
+.avatar {
+  border-radius: 4rem;
+  margin-right: 0.5rem;
+}
+.nickName {
+  font-weight: 600; /* semi bold */
+}
+.userName,
+.createdAt {
+  color: #8b8b8b;
+}
+
+.description {
+  font-size: 1.125rem;
+  margin: 5rem 0 1.25rem;
+}
+.createdAt {
+  font-size: 0.9375rem;
+}
+
+button {
+  background-color: #4eabea;
+  border: none;
+  box-shadow: 0px 0px 16px rgba(78, 171, 234, 0.75);
+  padding: 0.375em 1.75em;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 0 auto 5rem auto;
+  display: block;
+
+  color: white;
+  font-weight: 700;
+  font-size: 1.75rem;
+
+  transition: transform 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover {
+  background-color: hsl(204, 79%, 55%);
+}
+button:active {
+  transform: scale(0.9);
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 2.5rem;
+  }
+
+  .tweetBody {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+  .profileInfo {
+    max-width: 90%;
+  }
+}

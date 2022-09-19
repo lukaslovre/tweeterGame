@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/tweetGameStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Tweeter game</h1>
+    </header>
+
+    <% if(tweets){ %>
+
+    <!-- ako postoji data u tweets -->
+
+    <!-- Stvara cijeli tweet body za svaki tweet -->
+    <% for(let i=0;i<tweets.users.length;i++){ %>
+    <div class="tweetBody">
+      <div class="profileInfo" onclick="openCloseDropdown(<%=i%>)">
+
+        <div class="listItem">
+          <img class="avatar" src="<%= tweets.users[i].profile_image_url %>" alt="avatar" />
+          <div class="listItemRightSide">
+            <div class="nameAndArrow">
+              <p class="nickName"><%= tweets.users[i].name %></p>
+              <img src="images/triangle.svg" alt="drop down icon" class="triangle"/>
+            </div>
+              <p class="userName">@<%= tweets.users[i].username %></p>
+          </div>
+        </div>
+
+        <!-- Ostali profili koji su skriveni: -->
+        <% for(let j=1;j<tweets.users.length;j++){ %>
+          <% if(j==i){ %>
+          <div class="listItem dropdownItems" onclick="swap(<%=i%>,<%=0%>)">
+            <img class="avatar" src="<%= tweets.users[0].profile_image_url %>" alt="avatar" />
+            <div class="listItemRightSide">
+              <p class="nickName"><%= tweets.users[0].name %></p>
+              <p class="userName">@<%= tweets.users[0].username %></p>
+            </div>
+          </div>
+          <% }else{%>
+            <div class="listItem dropdownItems" onclick="swap(<%=i%>,<%=j%>)">
+              <img class="avatar" src="<%= tweets.users[j].profile_image_url %>" alt="avatar" />
+              <div class="listItemRightSide">
+                <p class="nickName"><%= tweets.users[j].name %></p>
+                <p class="userName">@<%= tweets.users[j].username %></p>
+              </div>
+            </div>
+          <% }%>
+        <% }%>
+
+      </div>
+      <p class="description"><%= tweets.tweets[i].text %></p>
+      <p class="createdAt"><%=  tweets.tweets[i].created_at %></p> 
+    </div>
+    <% }%>
+    <!--  -->
+    <% }%>
+
+    <button onclick="submitPairs()">VERIFY</button>
+  </body>
+  
+  <script>
+    
+    let userList = <%-usersForJs%>;
+    const tweetList = <%- tweetsForJs%>;
+
+    let tweetBodies = document.querySelectorAll(".tweetBody");
+    
+
+    /*
+
+      SWAP FUNKCIJA
+
+    */
+    function swap(tweetIndex,authorIndex){
+      // swapanje autora u varijabli
+      console.log(tweetIndex + "->" + authorIndex);
+      const temp = userList[tweetIndex];
+      userList[tweetIndex]=userList[authorIndex];
+      userList[authorIndex]=temp;
+
+      // mijenjanje html-a sa novim redosljedom
+      for(let i=0;i<userList.length;i++){
+
+        let listItems = tweetBodies[i].querySelectorAll(".listItem");
+        
+        for(let j=0;j<listItems.length;j++){
+          
+          let avatar = listItems[j].querySelector(".avatar");
+          let nick = listItems[j].querySelector(".nickName");
+          let user = listItems[j].querySelector(".userName");
+          if(j==0){
+            avatar.src = userList[i].profile_image_url;
+            nick.innerHTML = userList[i].name;
+            user.innerHTML = userList[i].username;
+          }else if(j==i){
+            avatar.src = userList[0].profile_image_url;
+            nick.innerHTML = userList[0].name;
+            user.innerHTML = userList[0].username;
+          }
+          else{
+            avatar.src = userList[j].profile_image_url;
+            nick.innerHTML = userList[j].name;
+            user.innerHTML = userList[j].username;
+          }
+        }
+      }
+    } 
+
+
+    /*
+
+      OPEN CLOSE DROPDOWN FUNCKIJA
+
+    */
+    let openDropdowns = [0,0,0,0,0];
+
+    function openCloseDropdown(tweetIndex){
+      let profileInfo = tweetBodies[tweetIndex].querySelector(".profileInfo");
+      let dropdownItems = tweetBodies[tweetIndex].querySelectorAll(".dropdownItems");
+      let listItems = tweetBodies[tweetIndex].querySelectorAll(".listItem");
+      let triangle = tweetBodies[tweetIndex].querySelector(".triangle")
+      
+      if(openDropdowns[tweetIndex]){
+        // zatvori stisnuti dropdown
+
+        profileInfo.style.zIndex="0";
+        profileInfo.style.boxShadow="none";
+        triangle.style.transform = "rotateZ(0)";
+        dropdownItems.forEach(item=>{
+          item.style.display = "none";
+        });
+        listItems.forEach(item=>{
+          item.style.padding = "0.5rem 0.5rem";
+        });
+
+      }else{
+        //zatvori sve ostale tabove
+
+        for(let i=0;i<5;i++){
+          if(openDropdowns[i]==1){
+            openCloseDropdown(i);
+          }
+        }
+
+        // otvori stisnuti tab
+        profileInfo.style.zIndex="1";
+        profileInfo.style.boxShadow="0px 0px 8px rgba(0, 0, 0, 0.5)";
+        triangle.style.transform = "rotateZ(180deg)";
+        dropdownItems.forEach(item=>{
+          item.style.display = "flex";
+        });
+        listItems.forEach(item=>{
+          item.style.padding = "1rem 0.5rem";
+        });
+
+      }
+
+      openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
+
+    }
+
+    /*
+
+      SUBMIT PAIRS FUNKCIJA
+
+    */
+    function submitPairs(){
+      for(let i=0;i<tweetList.length;i++){
+        let pair={
+          data:{
+            author_id: userList[i].id,
+            tweet_id: tweetList[i].id
+          }
+        };
+        
+        fetch('/checkauthor',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(pair),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+             tweetBodies[i].querySelector(".nickName").style.color = data.result ? "#82C99B":"#DB7070";
+             if(data.result){
+              tweetBodies[i].querySelector(".triangle").src="images/checkBold.svg"
+             } 
+          });
+      }
+    }
+
+  </script>  
+</html>
+
+
