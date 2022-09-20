@@ -3,6 +3,13 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.static(__dirname + "/public"));
+
 //ivanov dio
 const needle = require("needle");
 const fs = require("fs");
@@ -10,17 +17,8 @@ const bodyParser = require("body-parser");
 const { checkAuthor } = require("./checkAuthor");
 const { getDaily } = require("./getDaily");
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
 app.post("/checkauthor", checkAuthor);
 app.get("/daily", getDaily);
-
-// kraj ivanov dio
-
-app.set("view engine", "ejs");
-app.use(express.json());
-app.use(express.static(__dirname + "/public"));
 
 // routes
 app.get("/", (req, res) => {
