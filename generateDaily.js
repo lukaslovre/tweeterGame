@@ -13,31 +13,67 @@ const options = {
 };
 
 const getUserTweets = async (id) => {
-  const params = {
+  const params_ids = {
     max_results: 30,
-    "tweet.fields": "created_at",
-    expansions: "author_id",
+    "tweet.fields": "created_at"
   };
+  const params_details = {
+    expansions: "attachments.media_keys,referenced_tweets.id",
+    "tweet.fields": "created_at",
+    "media.fields": "url"
+  }
   const tweets = [];
   const url = `https://api.twitter.com/2/users/${id}/tweets`;
   try {
-    const resp = await needle("get", url, params, options);
+    const resp = await needle("get", url, params_ids, options);
     const allTweets = resp.body.data;
-    //console.log(allTweets);
     for (let i = 0; i < allTweets.length; i++) {
-      if (allTweets[i].text.startsWith("RT ")) continue;
-      if (allTweets[i].text.startsWith("@")) continue;
-      if (
-        new RegExp(
-          "([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?"
-        ).test(allTweets[i].text)
-      )
-        continue;
+
+      //too old
       const timeSince = Date.now() - Date.parse(allTweets[i].created_at);
       if (timeSince >= 24 * 60 * 60 * 1000) break;
-      //console.log(allTweets[i].created_at);
-      //console.log(timeSince);
-      tweets.push(allTweets[i]);
+
+      //console.log(allTweets[i].id);
+      const url2 = `https://api.twitter.com/2/tweets/${allTweets[i].id}`;
+      const response = await needle("get", url2, params_details, options);
+      //console.log(response);
+      const tweet = await response.body;
+      //console.log(tweet);
+      //QRT/RT/reply
+      if (tweet.data.referenced_tweets !== undefined) continue;
+
+      //videos
+      let noVideos = true;
+      try {
+        for (let j = 0 ; j < tweet.includes.media.length ; j++) {
+          if (tweet.includes.media[j].type == "video") noVideos = false;
+        }
+      } catch (e) {}
+      if (noVideos === false) continue;
+
+      const images = [];
+      try {
+        for (let j = 0 ; j < tweet.includes.media.length ; j++) {
+          images.push(tweet.includes.media[j].url);
+        }
+      } catch (e) {}
+
+      //links
+      const tcoCount = (tweet.data.text.match(/t.co/g) || []).length;
+      if ((images.length == 0 && tcoCount > 0) || (images.length > 0 && tcoCount > 1)) continue;
+
+      //delete t.co
+      if (images.length > 0) {
+        const textLength = tweet.data.text.indexOf('t.co') - 9;
+        tweet.data.text = tweet.data.text.substring(0, textLength);
+      }
+
+      tweets.push({
+        id: tweet.data.id,
+        text: tweet.data.text,
+        created_at: moment(tweet.data.created_at).format("hh:mm a · MMMM Do YYYY"),
+        images: images
+      });
     }
     return tweets;
   } catch (e) {
@@ -95,22 +131,14 @@ const generateDaily = async () => {
     [users[i], users[j]] = [users[j], users[i]];
   }
   const usersInfo = [];
-  const tweetsInfo = [];
   for (let i = 0; i < users.length; i++) {
     const user = await getUserById(users[i]);
     usersInfo.push(user);
   }
-  for (let i = 0; i < tweets.length; i++) {
-    tweetsInfo.push({
-      id: tweets[i].id,
-      text: tweets[i].text,
-      created_at: moment(tweets[i].created_at).format("hh:mm a · MMMM Do YYYY"),
-    });
-  }
   const jsonOut = {
     generated: JSON.stringify(Date.now()),
     users: usersInfo,
-    tweets: tweetsInfo,
+    tweets: tweets,
   };
   fs.writeFile(
     "json_files/daily.json",
