@@ -18,7 +18,7 @@ const { checkAuthor } = require("./checkAuthor");
 const { getDaily } = require("./getDaily");
 
 app.post("/checkauthor", checkAuthor);
-app.get("/daily", getDaily);
+app.get("/daily", (req, res) => res.send(getDaily()));
 
 // routes
 app.get("/", (req, res) => {
@@ -27,17 +27,8 @@ app.get("/", (req, res) => {
 /* ostali tweetovi se zamute i odu iza malo (smanje se, margin gore dole) */
 /* tweeteraši zapravo budu isstim redosljedom uvijek, ali ovaj koji se otvori nije gore prvi negod i bi inace bio, crveni trokut ostane na tom otvorenom ak ode u sredinu */
 
-app.get("/tweetGame", (req, res) => {
-  const tweets = JSON.parse(fs.readFileSync("json_files/daily.json"));
-
-  //shuffle tweets
-  for (let i = tweets.users.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [tweets.users[i], tweets.users[j]] = [tweets.users[j], tweets.users[i]];
-    j = Math.floor(Math.random() * (i + 1));
-    [tweets.tweets[i], tweets.tweets[j]] = [tweets.tweets[j], tweets.tweets[i]];
-  }
-
+app.get("/tweetGame", async (req, res) => {
+  const tweets = getDaily();
   res.render("tweetGame", {
     tweets,
     usersForJs: JSON.stringify(tweets.users),
