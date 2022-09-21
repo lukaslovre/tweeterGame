@@ -137,7 +137,7 @@
       let listItems = tweetBodies[tweetIndex].querySelectorAll(".listItem");
       let triangle = tweetBodies[tweetIndex].querySelector(".triangle")
       
-      if(openDropdowns[tweetIndex]){
+      if(openDropdowns[tweetIndex]==1){
         // zatvori stisnuti dropdown
 
         profileInfo.style.zIndex="0";
@@ -150,7 +150,9 @@
           item.style.padding = "0.5rem 0.5rem";
         });
 
-      }else{
+        openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
+
+      }else if(openDropdowns[tweetIndex]==0){
         //zatvori sve ostale tabove
 
         for(let i=0;i<5;i++){
@@ -170,9 +172,9 @@
           item.style.padding = "1rem 0.5rem";
         });
 
+        openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
       }
 
-      openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
 
     }
 
@@ -200,8 +202,9 @@
           .then((response) => response.json())
           .then((data) => {
              tweetBodies[i].querySelector(".nickName").style.color = data.result ? "#82C99B":"#DB7070";
-             if(data.result){
+             if(data.result == true){
               tweetBodies[i].querySelector(".triangle").src="images/checkBold.svg"
+              openDropdowns[i]=2; //postavi u 2 da se vise ne moze otvoriti tocno pogodeni dropdown
              } 
           });
       }
