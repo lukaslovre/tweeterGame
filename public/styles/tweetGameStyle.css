@@ -60,8 +60,9 @@ h1 {
 .listItemRightSide {
   display: flex;
   flex-direction: column;
-  /*
   width: 100%;
+  /*
+  width za trokut
   */
 }
 .nameAndArrow {
@@ -159,6 +160,6 @@ button:active {
     border-radius: 1rem;
   }
   .profileInfo {
-    max-width: 90%;
+    max-width: 85%;
   }
 }

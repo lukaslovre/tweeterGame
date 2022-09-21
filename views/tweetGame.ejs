@@ -27,27 +27,20 @@
     <div class="tweetBody">
       <div class="profileInfo" onclick="openCloseDropdown(<%=i%>)">
 
-        <div class="listItem">
-          <img class="avatar" src="<%= tweets.users[i].profile_image_url %>" alt="avatar" />
-          <div class="listItemRightSide">
-            <div class="nameAndArrow">
-              <p class="nickName"><%= tweets.users[i].name %></p>
-              <img src="images/triangle.svg" alt="drop down icon" class="triangle"/>
-            </div>
-              <p class="userName">@<%= tweets.users[i].username %></p>
-          </div>
-        </div>
-
         <!-- Ostali profili koji su skriveni: -->
-        <% for(let j=1;j<tweets.users.length;j++){ %>
+        <% for(let j=0;j<tweets.users.length;j++){ %>
           <% if(j==i){ %>
-          <div class="listItem dropdownItems" onclick="swap(<%=i%>,<%=0%>)">
-            <img class="avatar" src="<%= tweets.users[0].profile_image_url %>" alt="avatar" />
+          <div class="listItem">
+            <img class="avatar" src="<%= tweets.users[j].profile_image_url %>" alt="avatar" />
             <div class="listItemRightSide">
-              <p class="nickName"><%= tweets.users[0].name %></p>
-              <p class="userName">@<%= tweets.users[0].username %></p>
+              <div class="nameAndArrow">
+                <p class="nickName"><%= tweets.users[j].name %></p>
+                <img src="images/triangle.svg" alt="drop down icon" class="triangle"/>
+              </div>
+              <p class="userName">@<%= tweets.users[j].username %></p>
             </div>
           </div>
+
           <% }else{%>
             <div class="listItem dropdownItems" onclick="swap(<%=i%>,<%=j%>)">
               <img class="avatar" src="<%= tweets.users[j].profile_image_url %>" alt="avatar" />
@@ -75,8 +68,10 @@
     <button onclick="submitPairs()">VERIFY</button>
   </body>
   
+
+
   <script>
-    
+
     let userList = <%-usersForJs%>;
     const tweetList = <%- tweetsForJs%>;
 
@@ -105,20 +100,10 @@
           let avatar = listItems[j].querySelector(".avatar");
           let nick = listItems[j].querySelector(".nickName");
           let user = listItems[j].querySelector(".userName");
-          if(j==0){
-            avatar.src = userList[i].profile_image_url;
-            nick.innerHTML = userList[i].name;
-            user.innerHTML = userList[i].username;
-          }else if(j==i){
-            avatar.src = userList[0].profile_image_url;
-            nick.innerHTML = userList[0].name;
-            user.innerHTML = userList[0].username;
-          }
-          else{
-            avatar.src = userList[j].profile_image_url;
-            nick.innerHTML = userList[j].name;
-            user.innerHTML = userList[j].username;
-          }
+         
+          avatar.src = userList[j].profile_image_url;
+          nick.innerHTML = userList[j].name;
+          user.innerHTML = userList[j].username;
         }
       }
     } 
