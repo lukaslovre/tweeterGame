@@ -9,6 +9,7 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const { checkAuthor } = require("./checkAuthor");
 const { getDaily } = require("./getDaily");
+const { getTrueFalse } = require("./getTrueFalse");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +20,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.post("/checkauthor", checkAuthor);
 app.get("/daily", (req, res) => res.send(getDaily()));
+app.get("/truefalse", (req, res) => res.send(getTrueFalse()));
 
 // routes
 app.get("/", (req, res) => {
