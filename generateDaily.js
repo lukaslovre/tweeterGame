@@ -18,7 +18,7 @@ const getUserTweets = async (id) => {
     "tweet.fields": "created_at"
   };
   const params_details = {
-    expansions: "attachments.media_keys,referenced_tweets.id",
+    expansions: "attachments.media_keys,referenced_tweets.id,attachments.poll_ids",
     "tweet.fields": "created_at",
     "media.fields": "url"
   }
@@ -42,19 +42,28 @@ const getUserTweets = async (id) => {
       //QRT/RT/reply
       if (tweet.data.referenced_tweets !== undefined) continue;
 
-      //videos
+      //polls
+      try {
+        if (tweet.includes.polls) continue;
+      } catch (e) {}
+
+      //videos & GIFs
       let noVideos = true;
+      let noGIFs = true;
       try {
         for (let j = 0 ; j < tweet.includes.media.length ; j++) {
           if (tweet.includes.media[j].type == "video") noVideos = false;
+          if (tweet.includes.media[j].type == "animated_gif") noGIFs = false;
         }
       } catch (e) {}
-      if (noVideos === false) continue;
+      if (noVideos === false || noGIFs === false) continue;
 
+      //const gif = "";
       const images = [];
       try {
         for (let j = 0 ; j < tweet.includes.media.length ; j++) {
-          images.push(tweet.includes.media[j].url);
+          if (tweet.includes.media[j].type == "photo") images.push(tweet.includes.media[j].url);
+          //if (tweet.includes.media[j].type == "animated_gif") gif = ;
         }
       } catch (e) {}
 
