@@ -61,6 +61,11 @@
 
       </div>
       <p class="description"><%= tweets.tweets[i].text %></p>
+      <% if(tweets.tweets[i].images){ %>
+        <% for(let imgIndex=0;imgIndex < tweets.tweets[i].images.length;imgIndex++){ %>
+          <img src="<%= tweets.tweets[i].images[imgIndex] %>" alt="attachedImage" class="tweetImage" style="width:<%= 100/tweets.tweets[i].images.length %>%">
+        <% } %>
+      <% } %>
       <p class="createdAt"><%=  tweets.tweets[i].created_at %></p> 
     </div>
     <% }%>

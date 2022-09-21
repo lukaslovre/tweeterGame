@@ -113,6 +113,10 @@ h1 {
   font-size: 1.125rem;
   margin: 5rem 0 1.25rem;
 }
+.tweetImage {
+  border-radius: 8px;
+}
+
 .createdAt {
   font-size: 0.9375rem;
 }
