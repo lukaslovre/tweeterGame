@@ -124,7 +124,7 @@
       
       if(openDropdowns[tweetIndex]==1){
         // zatvori stisnuti dropdown
-
+        tweetBodies[tweetIndex].classList.remove("focusedTweetBody");
         profileInfo.style.zIndex="0";
         profileInfo.style.boxShadow="none";
         triangle.style.transform = "rotateZ(0)";
@@ -134,21 +134,31 @@
         listItems.forEach(item=>{
           item.style.padding = "0.5rem 0.5rem";
         });
-
+        for(let i=0;i<5;i++){
+          tweetBodies[i].classList.remove("blurredTweet");
+        }
+        profileInfo.style.top = `auto`;
         openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
 
       }else if(openDropdowns[tweetIndex]==0){
-        //zatvori sve ostale tabove
+        //otvori dropdown
 
+        //zatvori sve ostale tabove
         for(let i=0;i<5;i++){
+          if(i!=tweetIndex){
+            tweetBodies[i].classList.add("blurredTweet");
+          }else{
+            tweetBodies[i].classList.remove("blurredTweet");
+          }
+
           if(openDropdowns[i]==1){
             openCloseDropdown(i);
           }
         }
 
-        // otvori stisnuti tab
+
         profileInfo.style.zIndex="1";
-        profileInfo.style.boxShadow="0px 0px 8px rgba(0, 0, 0, 0.5)";
+        profileInfo.style.boxShadow="0px 0px 8px rgba(0, 0, 0, 0.75)";
         triangle.style.transform = "rotateZ(180deg)";
         dropdownItems.forEach(item=>{
           item.style.display = "flex";
@@ -156,6 +166,13 @@
         listItems.forEach(item=>{
           item.style.padding = "1rem 0.5rem";
         });
+
+        let heightOffset = 0;
+        for(let i=0;i<tweetIndex;i++){
+          heightOffset+= listItems[i].offsetHeight;
+        }
+        profileInfo.style.top = `${24-heightOffset}px`;
+
 
         openDropdowns[tweetIndex]=!openDropdowns[tweetIndex];
       }
