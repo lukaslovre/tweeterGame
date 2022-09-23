@@ -6,9 +6,9 @@ const bearerToken =
 
 const options = {
   headers: {
-    "User-Agent": "v2UserTweetsJS",
-    authorization: `Bearer ${bearerToken}`,
-  },
+    "User-Agent": "tweeterGame",
+    authorization: `Bearer ${bearerToken}`
+  }
 };
 
 const getUsers = async () => {

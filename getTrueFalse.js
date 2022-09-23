@@ -12,7 +12,7 @@ const options = {
   headers: {
     "User-Agent": "v2UserTweetsJS",
     authorization: `Bearer ${bearerToken}`,
-  },
+  }
 };
 
 const getTrueFalse = async () => {
