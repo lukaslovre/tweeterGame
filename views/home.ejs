@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/homeStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
-    <h1>Home page</h1>
+    <header>
+      <h1>Tweeter game</h1>
+    </header>
+
+    <h2>CHOOSE GAMEMODE</h2>
+    <div class="chooseGamemodeBody">
+      <div onclick="window.location.href = '/tweetGame'">
+        <h3 class="gamemodeTitle">Daily challange.</h3>
+        <p class="gamemodeDescription">
+          Match the author with their tweet. All players have the same 5 tweets.
+          Images are blurred. New tweets every day at 00:00.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="gamemodeTitle">True/false mode.</h3>
+        <p class="gamemodeDescription">
+          Decide if the user/tweet combo is correct. Only 1 tweet at a time. Go
+          as long as you can.
+        </p>
+      </div>
+    </div>
   </body>
 </html>
