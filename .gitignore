@@ -1,3 +1,6 @@
+image.jpg
+blurred_image.jpg
+
 # ignore ALL files in ANY directory named temp
 json_files/
 

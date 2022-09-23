@@ -2,6 +2,7 @@ const fs = require("fs");
 const { shuffle } = require("./jsTools");
 const { getUserTweet } = require("./getTweet");
 const { getUserById } = require("./getUser");
+const { blurImages } = require("./tweetTools");
 
 const generateDaily = async () => {
   const allUsers = JSON.parse(fs.readFileSync("json_files/users.json")).users;
@@ -12,6 +13,7 @@ const generateDaily = async () => {
     const id = allUsers[i];
     const tweet = await getUserTweet(id, Date.now() - 24 * 60 * 60 * 1000);
     if (tweet === undefined) continue;
+    await blurImages(tweet);
     tweets.push(tweet);
     users.push(allUsers[i]);
     console.log(tweets.length + "/5");
