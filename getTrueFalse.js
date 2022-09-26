@@ -12,15 +12,15 @@ const options = {
   headers: {
     "User-Agent": "v2UserTweetsJS",
     authorization: `Bearer ${bearerToken}`,
-  }
+  },
 };
 
 const getTrueFalse = async () => {
   const users = JSON.parse(fs.readFileSync("json_files/users.json")).users;
   shuffle(users);
-  const answer = Math.random()<=0.5;
+  const answer = Math.random() <= 0.5;
   let userInfo, tweetInfo;
-  for (let i = 0 ; i < users.length ; i++) {
+  for (let i = 0; i < users.length; i++) {
     const author = users[i];
     if (answer === true) {
       const tweet = await getUserTweet(author);
@@ -32,7 +32,7 @@ const getTrueFalse = async () => {
       const following = getFollowingById(author);
       shuffle(following);
       let found = false;
-      for (let j = 0 ; j < following.length ; j++) {
+      for (let j = 0; j < following.length; j++) {
         const tweet = getUserTweet(following[j]);
         if (tweet === undefined) continue;
         found = true;
@@ -46,7 +46,9 @@ const getTrueFalse = async () => {
   if (userInfo === undefined || tweetInfo === undefined) return undefined;
   const result = {
     user: userInfo,
-    tweet: tweetInfo
-  }
+    tweet: tweetInfo,
+  };
   return result;
-}
+};
+
+module.exports = { getTrueFalse };
