@@ -28,7 +28,7 @@ const TrueFalseSchema = new mongoose.Schema({
 const TrueFalse = mongoose.model("TrueFalse", TrueFalseSchema);
 
 const getTrueFalse = async () => {
-  const info = JSON.parse(fs.readFileSync("trueFalseInfo.json"));
+  const info = JSON.parse(fs.readFileSync("json_files/trueFalseInfo.json"));
   if (info.number_of_tweets === 0) {
     console.log("nema tvitova");
     return { status: 503 };
@@ -43,7 +43,11 @@ const getTrueFalse = async () => {
   info.number_of_tweets--;
   console.log(entry._id);
   await TrueFalse.deleteOne({ _id: entry._id }).then();
-  fs.writeFile("trueFalseInfo.json", JSON.stringify(info, null, 2), (e) => {});
+  fs.writeFile(
+    "json_files/trueFalseInfo.json",
+    JSON.stringify(info, null, 2),
+    (e) => {}
+  );
   console.log(res);
   return res;
 };

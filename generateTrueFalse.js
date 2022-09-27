@@ -98,7 +98,9 @@ const generateTrueFalse = async () => {
     last_id: res.id,
   };
   try {
-    const newInfo = JSON.parse(fs.readFileSync("trueFalseInfo.json"));
+    const newInfo = JSON.parse(
+      fs.readFileSync("json_files/trueFalseInfo.json")
+    );
     if (!newInfo.number_of_tweets) {
       throw new Error("nema tvitova");
     }
@@ -109,7 +111,11 @@ const generateTrueFalse = async () => {
     info.last_id = res.id;
     info.number_of_tweets++;
   } catch (e) {}
-  fs.writeFile("trueFalseInfo.json", JSON.stringify(info, null, 2), (e) => {});
+  fs.writeFile(
+    "json_files/trueFalseInfo.json",
+    JSON.stringify(info, null, 2),
+    (e) => {}
+  );
   console.log("Done!");
 };
 
