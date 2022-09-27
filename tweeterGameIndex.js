@@ -38,7 +38,8 @@ app.get("/tweetGame", async (req, res) => {
 });
 
 app.get("/true-false-mode", async (req, res) => {
-  //const tweet = await getTrueFalse();
+  const tweet = await getTrueFalse();
+  /*
   const tweet = {
     user: {
       profile_image_url:
@@ -59,6 +60,7 @@ app.get("/true-false-mode", async (req, res) => {
       images: ["https://pbs.twimg.com/media/FdSPB3XWIAE3fo3.jpg"],
     },
   };
+  */
   res.render("trueFalseMode", { tweet });
 });
 
