@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/trueFalseModeStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Tweeter game</h1>
+    </header>
+
+    <% if(tweet){ %>
+
+    <!-- ako postoji data u tweets -->
+
+    <!-- Stvara cijeli tweet body za svaki tweet -->
+    <div class="tweetBody">
+      <div class="profileInfo">
+        <img
+          class="avatar"
+          src="<%= tweet.user.profile_image_url %>"
+          alt="avatar"
+        />
+        <div class="listItemRightSide">
+          <p class="nickName"><%= tweet.user.name %></p>
+          <p class="userName">@<%= tweet.user.username %></p>
+        </div>
+      </div>
+      <p class="description"><%= tweet.tweet.text %></p>
+      <% if(tweet.tweet.images){ %>
+      <!--  -->
+      <% for(let imgIndex=0; imgIndex < tweet.tweet.images.length; imgIndex++){
+      %>
+      <img
+        src="<%= tweet.tweet.images[imgIndex] %>"
+        alt="attachedImage"
+        class="tweetImage"
+        style="width: <%= 100 / tweet.tweet.images.length %>%"
+      />
+      <% } %>
+      <!--  -->
+      <% } %>
+      <p class="createdAt"><%=tweet.tweet.created_at %></p>
+    </div>
+
+    <div class="buttonsContainer">
+      <button
+        class="trueButton"
+        onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',true)"
+      >
+        TRUE
+      </button>
+      <button
+        class="falseButton"
+        onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',false)"
+      >
+        FALSE
+      </button>
+    </div>
+    <!--  -->
+    <% }%>
+  </body>
+
+  <script>
+    async function submitPairs(tweetID, userID, userAnswer) {
+      const pair = { data: { author_id: userID, tweet_id: tweetID } };
+
+      const response = await fetch("/checkauthor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pair),
+      });
+      const data = await response.json();
+      const result = data.result;
+
+      console.log(userAnswer + " " + result);
+      if (userAnswer == result) alert("Tocno!");
+      else alert("Krivo!");
+    }
+  </script>
+</html>

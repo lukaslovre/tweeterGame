@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #f1f1f1;
+}
+
+header {
+  background-color: #202124;
+  padding: 1rem 0;
+  margin-bottom: 5rem;
+}
+h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 3rem;
+}
+
+h2 {
+  color: #202124;
+  font-size: 2.25rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.chooseGamemodeBody {
+  width: 50ch;
+  margin: auto;
+  background-color: #202124;
+  border-radius: 0.25rem;
+  padding: 1rem 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+.chooseGamemodeBody > div {
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+}
+.chooseGamemodeBody > div:hover {
+  background-color: #303236;
+}
+.gamemodeTitle {
+  color: white;
+  font-size: 1.5rem;
+  line-height: 140%;
+}
+.gamemodeDescription {
+  color: #a1a1a1;
+  font-size: 0.9375rem;
+  line-height: 140%;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 2.5rem;
+  }
+
+  .chooseGamemodeBody {
+    width: 90%;
+    border-radius: 0.5rem;
+  }
+}

@@ -6,11 +6,11 @@ const bearerToken =
 const options = {
   headers: {
     "User-Agent": "tweeterGame",
-    authorization: `Bearer ${bearerToken}`
-  }
+    authorization: `Bearer ${bearerToken}`,
+  },
 };
 
-const getUserById = async id => {
+const getUserById = async (id) => {
   try {
     const url = `https://api.twitter.com/2/users/${id}`;
     const user = await needle(

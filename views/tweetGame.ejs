@@ -185,7 +185,8 @@
       SUBMIT PAIRS FUNKCIJA
 
     */
-    function submitPairs(){
+    async function submitPairs(){
+      let promises = [];
       for(let i=0;i<tweetList.length;i++){
         let pair={
           data:{
@@ -193,24 +194,39 @@
             tweet_id: tweetList[i].id
           }
         };
-        
-        fetch('/checkauthor',{
+
+        promises[i] = fetch('/checkauthor',{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(pair),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-             tweetBodies[i].querySelector(".nickName").style.color = data.result ? "#82C99B":"#DB7070";
-             if(data.result == true){
-              tweetBodies[i].querySelector(".triangle").src="images/checkBold.svg"
-              openDropdowns[i]=2; //postavi u 2 da se vise ne moze otvoriti tocno pogodeni dropdown
-             } 
-          });
+        });
       }
+
+      const responses = await Promise.all(promises);
+      let resultsFinal = [];
+      for(let i=0;i<tweetList.length;i++){
+        resultsFinal[i] = await responses[i].json();
+      }
+      console.log(resultsFinal);
+      resultsFinal = resultsFinal.map((res)=>res.result);
+      console.log(resultsFinal);
+      //mijenjanje HTML-a:      
+      for(let i=0;i<tweetList.length;i++){
+        let listItems = tweetBodies[i].querySelectorAll(".listItem");
+
+        for(let j=0;j<listItems.length;j++){
+          listItems[j].querySelector(".nickName").style.color = resultsFinal[j] ? "#82C99B":"#DB7070";
+        }
+        if(resultsFinal[i] == true){
+        tweetBodies[i].querySelector(".triangle").src="images/checkBold.svg"
+        openDropdowns[i]=2; //postavi u 2 da se vise ne moze otvoriti tocno pogodeni dropdown
+      }
+
     }
+  }
+
 
   </script>  
 </html>
