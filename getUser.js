@@ -19,6 +19,11 @@ const getUserById = async id => {
       "user.fields=profile_image_url",
       options
     );
+    if (user.statusCode === 429) {
+      console.log('Too many user requests!');
+      return undefined;
+    }
+    console.log(user.body);
     return user.body.data;
   } catch (e) {
     throw new Error(`Request failed: ${e}`);
@@ -26,15 +31,22 @@ const getUserById = async id => {
   }
 };
 
-const getFollowingById = async id => {
+const getFollowingById = async (id, limit = 0) => {
     let next_token = undefined;
     const following = [];
     do {
         const url = `https://api.twitter.com/2/users/${id}/following`;
-        const params = next_token?`pagination_token=${next_token}`:"";
+        const params = "max_results=100&" + (next_token?`pagination_token=${next_token}`:"");
         const resp = await needle("get", url, params, options);
+        console.log(resp);
+        if (resp.statusCode === 429) {
+          console.log('Too many following requests!');
+          return 429;
+        }
+        if (resp.body.meta.result_count === 0) return [];
         for (let i = 0 ; i < resp.body.data.length ; i++) {
             following.push(resp.body.data[i].id);
+            if (limit && following.length === limit) return following;
         }
         next_token = resp.body.meta.next_token;
     } while (next_token);
