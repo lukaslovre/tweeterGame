@@ -26,6 +26,8 @@ const getUserTweets = async (id, since) => {
   const url = `https://api.twitter.com/2/users/${id}/tweets`;
   try {
     const resp = await needle("get", url, params_ids, options);
+    console.log(resp.body);
+    if (!resp.body.data) return [];
     const allTweets = resp.body.data;
     for (let i = 0; i < allTweets.length; i++) {
 
@@ -36,6 +38,10 @@ const getUserTweets = async (id, since) => {
       //console.log(allTweets[i].id);
       const url2 = `https://api.twitter.com/2/tweets/${allTweets[i].id}`;
       const response = await needle("get", url2, params_details, options);
+      if (response.statusCode === 429) {
+        console.log('Too many tweet requests');
+        return 429;
+      }
       //console.log(response);
       const tweet = await response.body;
       //console.log(tweet);
@@ -94,6 +100,7 @@ const getUserTweets = async (id, since) => {
 const getUserTweet = async (id, since = 0) => {
     //console.log(id, since);
   const tweets = await getUserTweets(id, since);
+  if (tweets === 429) return 429;
   if (tweets.length === 0) {
     return undefined;
   }
