@@ -18,6 +18,16 @@ h1 {
   color: #fff;
   font-size: 3rem;
 }
+.score {
+  text-align: center;
+  color: #b4b4b4;
+  transition: font-size 200ms ease;
+}
+.sameAsHighScore {
+  color: #000000;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
 
 /* tweet styling */
 .tweetBody {
@@ -116,6 +126,37 @@ button {
 .falseButton:active {
   background-color: #ef767a;
   color: #fff8f8;
+}
+
+/* RESULTS */
+.resultsDiv {
+  text-align: center;
+}
+.resultText {
+  font-weight: 700;
+  font-size: 3.5rem;
+  color: #000000;
+  margin: 25vh 0;
+}
+.refreshButton {
+  display: block;
+  margin: auto;
+  color: #74bced;
+  border: 0.125rem solid #4eabea;
+  box-shadow: 0px 0px 4px #4eabea;
+}
+.refreshButton:active {
+  color: #f1f1f1;
+  background-color: #4eabea;
+}
+
+@keyframes deBlur {
+  0% {
+    filter: blur(3rem);
+  }
+  100% {
+    filter: blur(0);
+  }
 }
 
 @media only screen and (max-width: 600px) {

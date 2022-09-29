@@ -13,64 +13,90 @@
     />
     <title>Document</title>
   </head>
+
   <body>
     <header>
       <h1>Tweeter game</h1>
     </header>
 
+    <p class="score">
+      <span class="current"></span> / <span class="highscore"></span>
+    </p>
     <% if(tweet){ %>
-
-    <!-- ako postoji data u tweets -->
-
-    <!-- Stvara cijeli tweet body za svaki tweet -->
-    <div class="tweetBody">
-      <div class="profileInfo">
-        <img
-          class="avatar"
-          src="<%= tweet.user.profile_image_url %>"
-          alt="avatar"
-        />
-        <div class="listItemRightSide">
-          <p class="nickName"><%= tweet.user.name %></p>
-          <p class="userName">@<%= tweet.user.username %></p>
+    <div class="activeGame">
+      <!-- Stvara cijeli tweet body za svaki tweet -->
+      <div class="tweetBody">
+        <div class="profileInfo">
+          <img
+            class="avatar"
+            src="<%= tweet.user.profile_image_url %>"
+            alt="avatar"
+          />
+          <div class="listItemRightSide">
+            <p class="nickName"><%= tweet.user.name %></p>
+            <p class="userName">@<%= tweet.user.username %></p>
+          </div>
         </div>
+        <p class="description"><%= tweet.tweet.text %></p>
+        <% if(tweet.tweet.images){ %>
+        <!--  -->
+        <% for(let imgIndex=0; imgIndex < tweet.tweet.images.length;
+        imgIndex++){ %>
+        <img
+          src="<%= tweet.tweet.images[imgIndex] %>"
+          alt="attachedImage"
+          class="tweetImage"
+          style="width: <%= 100 / tweet.tweet.images.length %>%"
+        />
+        <% } %>
+        <!--  -->
+        <% } %>
+        <p class="createdAt"><%=tweet.tweet.created_at %></p>
       </div>
-      <p class="description"><%= tweet.tweet.text %></p>
-      <% if(tweet.tweet.images){ %>
-      <!--  -->
-      <% for(let imgIndex=0; imgIndex < tweet.tweet.images.length; imgIndex++){
-      %>
-      <img
-        src="<%= tweet.tweet.images[imgIndex] %>"
-        alt="attachedImage"
-        class="tweetImage"
-        style="width: <%= 100 / tweet.tweet.images.length %>%"
-      />
-      <% } %>
-      <!--  -->
-      <% } %>
-      <p class="createdAt"><%=tweet.tweet.created_at %></p>
+
+      <div class="buttonsContainer">
+        <button
+          class="trueButton"
+          onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',true)"
+        >
+          TRUE
+        </button>
+        <button
+          class="falseButton"
+          onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',false)"
+        >
+          FALSE
+        </button>
+      </div>
     </div>
 
-    <div class="buttonsContainer">
-      <button
-        class="trueButton"
-        onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',true)"
-      >
-        TRUE
-      </button>
-      <button
-        class="falseButton"
-        onclick="submitPairs('<%=tweet.tweet.id%>','<%=tweet.user.id%>',false)"
-      >
-        FALSE
-      </button>
+    <div class="resultsDiv" style="display: none">
+      <p class="resultText">idk</p>
+      <button class="refreshButton" onclick="refresh()">NEXT</button>
     </div>
     <!--  -->
     <% }%>
   </body>
 
   <script>
+    // local storage (score tracking)
+    const wholeScore = document.querySelector(".score");
+    const scoreSpan = document.querySelector(".current");
+    const highscoreSpan = document.querySelector(".highscore");
+    let highScore = localStorage.getItem("highScore");
+    let currentScore = localStorage.getItem("currentScore");
+    if (highScore == currentScore) wholeScore.classList.add("sameAsHighScore");
+    if (highScore == undefined) {
+      localStorage.setItem("highScore", 0);
+      highScore = 0;
+      localStorage.setItem("currentScore", 0);
+      currentScore = 0;
+    }
+    scoreSpan.innerHTML = currentScore;
+    highscoreSpan.innerHTML = highScore;
+    // ^^^^^^^^^
+
+    // functions
     async function submitPairs(tweetID, userID, userAnswer) {
       const pair = { data: { author_id: userID, tweet_id: tweetID } };
 
@@ -84,9 +110,30 @@
       const data = await response.json();
       const result = data.result;
 
-      console.log(userAnswer + " " + result);
-      if (userAnswer == result) alert("Tocno!");
-      else alert("Krivo!");
+      const activeGame = document.querySelector(".activeGame");
+      const resultsDiv = document.querySelector(".resultsDiv");
+      const resultText = resultsDiv.querySelector(".resultText");
+
+      resultText.innerHTML = userAnswer == result ? "true" : "false";
+      activeGame.style.display = "none";
+      resultsDiv.style.display = "initial";
+      resultText.style.textShadow = `3px 4px 0px ${
+        userAnswer == result ? "#82C99B" : "#ff8282"
+      }`;
+      resultText.style.animation =
+        "deBlur 750ms cubic-bezier(0.47, 0, 0.74, 0.71)";
+
+      if (userAnswer == result) {
+        currentScore++;
+        localStorage.setItem("currentScore", currentScore);
+        if (currentScore > highScore)
+          localStorage.setItem("highScore", currentScore);
+      } else {
+        localStorage.setItem("currentScore", 0);
+      }
+    }
+    function refresh() {
+      location.replace("/true-false-mode");
     }
   </script>
 </html>
