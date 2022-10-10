@@ -47,6 +47,7 @@ const generateTrueFalse = async () => {
   console.log(answer);
   let userInfo, tweetInfo;
   for (let i = 0; i < users.length; i++) {
+	console.log(i);
     const author = users[i];
     if (answer === true) {
       const tweet = await getUserTweet(author);
