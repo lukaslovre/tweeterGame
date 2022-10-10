@@ -1,7 +1,7 @@
 // express
 const express = require("express");
 const app = express();
-const PORT = 8081;
+const PORT = 8080;
 
 //ivanov dio
 const needle = require("needle");
@@ -39,6 +39,22 @@ app.get("/tweetGame", async (req, res) => {
 
 app.get("/true-false-mode", async (req, res) => {
   const tweet = await getTrueFalse();
+  /*const tweet = {
+    tweet: {
+      id: "1514008829821861897",
+      text: "Oh my gosh I haven’t posted in so long SEND ME SUBMISSIONS PLS INCLUDING PODCAST",
+      created_at: "12:33 am · April 13th 2022",
+      images: [],
+    },
+    user: {
+      id: "9989862",
+      name: "jacksfilms",
+      username: "jacksfilms",
+      profile_image_url:
+        "https://pbs.twimg.com/profile_images/1523106752668966913/tWNV2zbS_normal.jpg",
+    },
+  };
+*/
   res.render("trueFalseMode", { tweet });
 });
 
