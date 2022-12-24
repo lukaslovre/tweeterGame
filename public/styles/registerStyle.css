@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #f1f1f1;
+}
+
+header {
+  background-color: #202124;
+  padding: 1rem 0;
+  margin-bottom: 5rem;
+}
+h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 3rem;
+}
+h2 {
+  font-size: 3rem;
+  color: #202124;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.usernameRow,
+.passwordRow {
+  margin: 3rem auto;
+  position: relative;
+  max-width: 40ch;
+}
+input {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  background-color: #ffffff;
+  color: #2d2d2d;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  padding: 0.5em 4.5em 0.5em 1em;
+  border-radius: 2px;
+  box-shadow: 0 3px 0 #4eabea;
+  transition: box-shadow 100ms ease-out;
+}
+input:focus {
+  box-shadow: 0 6px 0 #4eabea;
+}
+.formHelperText {
+  position: absolute;
+  right: 1em;
+  top: 0.5em;
+
+  font-weight: 700;
+  color: #cecece;
+}
+#togglePasswordVisibility {
+  cursor: pointer;
+}
+.errorMsg {
+  margin-left: 1rem;
+  color: #db7070;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+button {
+  background-color: #4eabea;
+  border: none;
+  box-shadow: 0px 0px 16px rgba(78, 171, 234, 0.75);
+  padding: 0.375em 1.75em;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 0 auto 5rem auto;
+  display: block;
+
+  color: white;
+  font-weight: 700;
+  font-size: 1.75rem;
+
+  transition: transform 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover {
+  background-color: hsl(204, 79%, 55%);
+}
+button:active {
+  transform: scale(0.9);
+}
+@media only screen and (max-width: 600px) {
+  h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 2.5rem;
+  }
+  .usernameRow,
+  .passwordRow {
+    max-width: 30ch;
+  }
+  button {
+    padding: 0.375em 1.75em;
+    font-size: 1.25rem;
+  }
+}

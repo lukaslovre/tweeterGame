@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/registerStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Tweeter game</h1>
+    </header>
+    <h2>Register</h2>
+    <form action="register" method="post">
+      <div class="usernameRow">
+        <input
+          type="text"
+          name="username"
+          id="username"
+          autocomplete="off"
+          placeholder="Username"
+          maxlength="16"
+        />
+        <span class="formHelperText" id="usernameCharLength">0/16</span>
+        <p class="errorMsg">Error msg</p>
+      </div>
+      <div class="passwordRow">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          maxlength="80"
+        />
+        <span class="formHelperText" id="togglePasswordVisibility">toggle</span>
+        <p class="errorMsg">Error msg</p>
+      </div>
+
+      <button>REGISTER</button>
+    </form>
+
+    <script>
+      const getCharNumber = () => {
+        const inputLength = usernameInput.value.length;
+        usernameCharLength.innerHTML = `${inputLength}/16`;
+      };
+      const togglePasswordVis = () => {
+        if (passwordInput.type === "password") passwordInput.type = "text";
+        else passwordInput.type = "password";
+      };
+
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const usernameCharLength = document.getElementById("usernameCharLength");
+      const togglePasswordVisibility = document.getElementById(
+        "togglePasswordVisibility"
+      );
+
+      togglePasswordVisibility.addEventListener("click", togglePasswordVis);
+      usernameInput.addEventListener("input", getCharNumber);
+    </script>
+  </body>
+</html>
