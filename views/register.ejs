@@ -15,9 +15,11 @@
   </head>
   <body>
     <header>
-      <h1>Tweeter game</h1>
+      <h1><a href="/">Tweeter game</a></h1>
     </header>
+
     <h2>Register</h2>
+
     <form action="register" method="post">
       <div class="usernameRow">
         <input
@@ -29,7 +31,7 @@
           maxlength="16"
         />
         <span class="formHelperText" id="usernameCharLength">0/16</span>
-        <p class="errorMsg">Error msg</p>
+        <p class="errorMsg" id="usernameErrorMsg"><%= usernameErr %></p>
       </div>
       <div class="passwordRow">
         <input
@@ -37,33 +39,37 @@
           name="password"
           id="password"
           placeholder="Password"
-          maxlength="80"
+          maxlength="40"
         />
         <span class="formHelperText" id="togglePasswordVisibility">toggle</span>
-        <p class="errorMsg">Error msg</p>
+        <p class="errorMsg" id="passwordErrorMsg"><%= passwordErr %></p>
       </div>
 
       <button>REGISTER</button>
     </form>
 
     <script>
+      // funkcije
       const getCharNumber = () => {
         const inputLength = usernameInput.value.length;
-        usernameCharLength.innerHTML = `${inputLength}/16`;
+        usernameCharLengthCounter.innerHTML = `${inputLength}/16`;
       };
       const togglePasswordVis = () => {
         if (passwordInput.type === "password") passwordInput.type = "text";
         else passwordInput.type = "password";
       };
 
+      // dohvaćanje DOM elementa
       const usernameInput = document.getElementById("username");
       const passwordInput = document.getElementById("password");
-      const usernameCharLength = document.getElementById("usernameCharLength");
-      const togglePasswordVisibility = document.getElementById(
+      const usernameCharLengthCounter =
+        document.getElementById("usernameCharLength");
+      const togglePasswordVisibilityBtn = document.getElementById(
         "togglePasswordVisibility"
       );
 
-      togglePasswordVisibility.addEventListener("click", togglePasswordVis);
+      // gametime
+      togglePasswordVisibilityBtn.addEventListener("click", togglePasswordVis);
       usernameInput.addEventListener("input", getCharNumber);
     </script>
   </body>

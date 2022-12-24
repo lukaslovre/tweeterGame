@@ -13,6 +13,10 @@ header {
   padding: 1rem 0;
   margin-bottom: 5rem;
 }
+header a {
+  text-decoration: none;
+  color: inherit;
+}
 h1 {
   text-align: center;
   color: #fff;

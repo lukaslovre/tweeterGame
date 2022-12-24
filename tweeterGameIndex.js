@@ -29,8 +29,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  res.render("register", {
+    usernameErr: null,
+    passwordErr: null,
+  });
 });
+app.post("/register", (req, res) => {
+  console.log(req.body);
+
+  // napraviti check podataka
+  // ako je ispravno
+  //res.redirect("/");
+
+  // ako nije ipsravno (odgovarajuci error, metnut check u neku exportanu funkciju, provjeravat duljinu, ne dozvolit razmak, jos nesto akos e sjetis)
+  res.render("register", {
+    usernameErr: null,
+    passwordErr: "Password is too short!",
+  });
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
 });

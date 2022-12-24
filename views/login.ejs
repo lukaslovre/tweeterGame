@@ -15,7 +15,7 @@
   </head>
   <body>
     <header>
-      <h1>Tweeter game</h1>
+      <h1><a href="/">Tweeter game</a></h1>
     </header>
     <h2>Login</h2>
     <form action="login" method="post">
@@ -29,7 +29,7 @@
           maxlength="16"
         />
         <span class="formHelperText" id="usernameCharLength">0/16</span>
-        <p class="errorMsg">Error msg</p>
+        <p class="errorMsg" id="usernameErrorMsg">Error msg</p>
       </div>
       <div class="passwordRow">
         <input
@@ -40,7 +40,7 @@
           maxlength="80"
         />
         <span class="formHelperText" id="togglePasswordVisibility">toggle</span>
-        <p class="errorMsg">Error msg</p>
+        <p class="errorMsg" id="passwordErrorMsg">Error msg</p>
       </div>
 
       <button>LOGIN</button>
@@ -49,7 +49,7 @@
     <script>
       const getCharNumber = () => {
         const inputLength = usernameInput.value.length;
-        usernameCharLength.innerHTML = `${inputLength}/16`;
+        usernameCharLengthCounter.innerHTML = `${inputLength}/16`;
       };
       const togglePasswordVis = () => {
         if (passwordInput.type === "password") passwordInput.type = "text";
@@ -58,12 +58,13 @@
 
       const usernameInput = document.getElementById("username");
       const passwordInput = document.getElementById("password");
-      const usernameCharLength = document.getElementById("usernameCharLength");
-      const togglePasswordVisibility = document.getElementById(
+      const usernameCharLengthCounter =
+        document.getElementById("usernameCharLength");
+      const togglePasswordVisibilityBtn = document.getElementById(
         "togglePasswordVisibility"
       );
 
-      togglePasswordVisibility.addEventListener("click", togglePasswordVis);
+      togglePasswordVisibilityBtn.addEventListener("click", togglePasswordVis);
       usernameInput.addEventListener("input", getCharNumber);
     </script>
   </body>
